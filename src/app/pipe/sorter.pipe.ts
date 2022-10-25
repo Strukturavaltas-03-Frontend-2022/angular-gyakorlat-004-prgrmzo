@@ -1,27 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'sorter'
+  name: 'sorter',
 })
 export class SorterPipe implements PipeTransform {
-
   /**
    * A kapott tömb rendezése a szűrőkifejezés alapján.
    * @param value {any[]} - a tömb
    * @param key {string} - az objektumkulcs, amely alapján rendez
    * @returns {any[]} - a kulcs alapján rendezett tömb
    */
-  transform(value: any[], key: string): any[] {
-    // A KÖVETKEZŐ SORT TÁVOLÍTSD EL!!!
-    return value;
-
+  transform(value: any[], key: string): any {
     /**
      * FELADAT!
      * Ellenőrzés: ha a value nem tömb vagy nincs megadva a key,
      * térj vissza a value változóval.
      */
-
-
 
     /**
      * FELADAT!
@@ -32,9 +26,18 @@ export class SorterPipe implements PipeTransform {
      * 3. Térj vissza a két string localeCompare metódus által visszaadott
      *  összehasonlításának az eredményével.
      */
-
-
+    if (!(value instanceof Array) || key === null) {
+      return value;
+    } else {
+      return value.sort((a, b) => {
+        if (typeof a[key] === 'number' && typeof b[key] === 'number') {
+          return a[key] - b[key];
+        } else {
+          const strA = String(a[key]).toLocaleLowerCase();
+          const strB = String(b[key]).toLocaleLowerCase();
+          return strA.localeCompare(strB);
+        }
+      });
+    }
   }
-
 }
-
